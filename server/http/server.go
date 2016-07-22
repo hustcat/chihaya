@@ -98,17 +98,22 @@ func (s *httpServer) routes() *httprouter.Router {
 }
 
 func (s *httpServer) serveAnnounce(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+	log.Printf("%s %s", r.Method, r.RequestURI)
 	req, err := announceRequest(r, s.cfg)
 	if err != nil {
 		writeError(w, err)
 		return
 	}
 
+	log.Printf("Recv announce request: %#v", req)
+
 	resp, err := s.tkr.HandleAnnounce(req)
 	if err != nil {
 		writeError(w, err)
 		return
 	}
+
+	log.Printf("Announce response: %#v", resp)
 
 	err = writeAnnounceResponse(w, resp)
 	if err != nil {

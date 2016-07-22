@@ -105,6 +105,7 @@ func decodePeerKey(pk serializedPeer) chihaya.Peer {
 }
 
 func (s *peerStore) PutSeeder(infoHash chihaya.InfoHash, p chihaya.Peer) error {
+	log.Printf("PutSeeder InfoHash:%s Peer:%#v", string(infoHash[:]), p)
 	select {
 	case <-s.closed:
 		panic("attempted to interact with stopped store")
@@ -128,6 +129,7 @@ func (s *peerStore) PutSeeder(infoHash chihaya.InfoHash, p chihaya.Peer) error {
 }
 
 func (s *peerStore) DeleteSeeder(infoHash chihaya.InfoHash, p chihaya.Peer) error {
+	log.Printf("DeleteSeeder InfoHash:%s Peer:%#v", string(infoHash[:]), p)
 	select {
 	case <-s.closed:
 		panic("attempted to interact with stopped store")
@@ -157,6 +159,7 @@ func (s *peerStore) DeleteSeeder(infoHash chihaya.InfoHash, p chihaya.Peer) erro
 }
 
 func (s *peerStore) PutLeecher(infoHash chihaya.InfoHash, p chihaya.Peer) error {
+	log.Printf("PutLeecher InfoHash:%s Peer:%#v", string(infoHash[:]), p)
 	select {
 	case <-s.closed:
 		panic("attempted to interact with stopped store")
@@ -180,6 +183,7 @@ func (s *peerStore) PutLeecher(infoHash chihaya.InfoHash, p chihaya.Peer) error 
 }
 
 func (s *peerStore) DeleteLeecher(infoHash chihaya.InfoHash, p chihaya.Peer) error {
+	log.Printf("DeleteLeecher InfoHash:%s Peer:%#v", string(infoHash[:]), p)
 	select {
 	case <-s.closed:
 		panic("attempted to interact with stopped store")
@@ -209,6 +213,7 @@ func (s *peerStore) DeleteLeecher(infoHash chihaya.InfoHash, p chihaya.Peer) err
 }
 
 func (s *peerStore) GraduateLeecher(infoHash chihaya.InfoHash, p chihaya.Peer) error {
+	log.Printf("GraduateLeecher InfoHash:%s Peer:%#v", string(infoHash[:]), p)
 	select {
 	case <-s.closed:
 		panic("attempted to interact with stopped store")
@@ -282,6 +287,7 @@ func (s *peerStore) CollectGarbage(cutoff time.Time) error {
 }
 
 func (s *peerStore) AnnouncePeers(infoHash chihaya.InfoHash, seeder bool, numWant int, peer4, peer6 chihaya.Peer) (peers, peers6 []chihaya.Peer, err error) {
+	log.Printf("AnnouncePeers InfoHash:%s peer4:%#v, peer6:%#v", string(infoHash[:]), peer4, peer6)
 	select {
 	case <-s.closed:
 		panic("attempted to interact with stopped store")
@@ -354,10 +360,12 @@ func (s *peerStore) AnnouncePeers(infoHash chihaya.InfoHash, seeder bool, numWan
 		}
 	}
 
+	log.Printf("AnnouncePeers return InfoHash:%s peer4:%#v, peer6:%#v", string(infoHash[:]), peers, peers6)
 	return
 }
 
 func (s *peerStore) GetSeeders(infoHash chihaya.InfoHash) (peers, peers6 []chihaya.Peer, err error) {
+	log.Printf("GetSeeders InfoHash:%s", string(infoHash[:]))
 	select {
 	case <-s.closed:
 		panic("attempted to interact with stopped store")
@@ -385,6 +393,7 @@ func (s *peerStore) GetSeeders(infoHash chihaya.InfoHash) (peers, peers6 []chiha
 }
 
 func (s *peerStore) GetLeechers(infoHash chihaya.InfoHash) (peers, peers6 []chihaya.Peer, err error) {
+	log.Printf("GetLeeders InfoHash:%s", string(infoHash[:]))
 	select {
 	case <-s.closed:
 		panic("attempted to interact with stopped store")
